@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   FlatList,
@@ -8,17 +8,11 @@ import {
   ViewStyle,
   StyleProp,
   ImageBackground,
-} from 'react-native';
-
-// CarouselItem must have at least an image, but other fields can be dynamic
-interface CarouselItem {
-  image: string; // The image field is required
-  [key: string]: any; // Other properties are flexible
-}
+} from "react-native";
 
 interface CarouselProps {
-  data: CarouselItem[]; // Array of items with flexible structure but image is mandatory
-  renderItem?: (item: CarouselItem) => JSX.Element; // Custom renderer
+  data: any[]; // Array of items with flexible structure but image is mandatory
+  renderItem?: (item: any) => JSX.Element; // Custom renderer
   autoScroll?: boolean;
   scrollInterval?: number;
   showPagination?: boolean;
@@ -27,7 +21,7 @@ interface CarouselProps {
   paginationDotStyle?: StyleProp<ViewStyle>;
 }
 
-const {width: screenWidth} = Dimensions.get('window'); 
+const { width: screenWidth } = Dimensions.get("window");
 
 const BasicCarousel = ({
   data,
@@ -40,14 +34,14 @@ const BasicCarousel = ({
   paginationDotStyle,
 }: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const flatListRef = useRef<FlatList<CarouselItem>>(null);
+  const flatListRef = useRef<FlatList<any>>(null);
 
   useEffect(() => {
     if (autoScroll) {
       const timerId = setInterval(() => {
         if (activeIndex === data.length - 1) {
           setActiveIndex(0);
-          flatListRef.current?.scrollToIndex({index: 0, animated: true});
+          flatListRef.current?.scrollToIndex({ index: 0, animated: true });
         } else {
           setActiveIndex(activeIndex + 1);
           flatListRef.current?.scrollToIndex({
@@ -62,11 +56,11 @@ const BasicCarousel = ({
   }, [activeIndex, autoScroll, scrollInterval, data.length]);
 
   const onViewableItemsChanged = useRef(
-    ({viewableItems}: {viewableItems: any}) => {
+    ({ viewableItems }: { viewableItems: any }) => {
       if (viewableItems.length > 0) {
         setActiveIndex(viewableItems[0].index);
       }
-    },
+    }
   ).current;
 
   return (
@@ -74,7 +68,7 @@ const BasicCarousel = ({
       <FlatList
         ref={flatListRef}
         data={data}
-        renderItem={({item}) =>
+        renderItem={({ item }) =>
           renderItem ? renderItem(item) : <DefaultCarouselCard item={item} />
         }
         horizontal
@@ -82,7 +76,7 @@ const BasicCarousel = ({
         showsHorizontalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
         scrollEventThrottle={16}
-        viewabilityConfig={{viewAreaCoveragePercentThreshold: 50}}
+        viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
         keyExtractor={(_, index) => index.toString()}
       />
 
@@ -108,28 +102,24 @@ const BasicCarousel = ({
 };
 
 // Default Carousel Card: Used if no custom renderer is provided
-const DefaultCarouselCard = ({item}: {item: CarouselItem}) => {
+const DefaultCarouselCard = ({ item }: { item: any }) => {
   return (
     <View style={styles.defaultCard}>
-      {/* Default card layout with the mandatory image field */}
-      <ImageBackground
-        source={{uri: item.image}}
-        style={styles.imageBackground}
-      />
+      <View style={styles.imageBackground} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   paginationContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 15,
   },
   paginationDot: {
     height: 8,
-    backgroundColor: '#2196F3',
+    backgroundColor: "#2196F3",
     marginHorizontal: 4,
     borderRadius: 4,
   },
@@ -137,18 +127,19 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.9,
     height: 200,
     marginHorizontal: screenWidth * 0.05,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 12,
     padding: 1,
     borderWidth: 0.5,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   imageBackground: {
-    width: '100%',
+    width: "100%",
     borderRadius: 12,
-    overflow: 'hidden',
-    height: '100%',
+    overflow: "hidden",
+    height: "100%",
+    backgroundColor: "red",
   },
 });
 
