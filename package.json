@@ -1,6 +1,6 @@
 {
   "name": "react-native-sg-basic-carousel",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An npm package to display basic carousel on react native applications",
   "main": "index.tsx",
   "scripts": {
