@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { useState, useRef, useEffect, JSX } from "react";
+import React, { useState, useRef, useEffect, JSX } from "react";
 import {
   View,
   FlatList,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ViewStyle,
   StyleProp,
+  ImageBackground,
 } from "react-native";
 
 interface CarouselProps {
@@ -62,6 +63,10 @@ const BasicCarousel = ({
     },
   ).current;
 
+  if (!data || data.length === 0) {
+    return null;
+  }
+
   return (
     <View style={containerStyle}>
       <FlatList
@@ -102,9 +107,18 @@ const BasicCarousel = ({
 
 // Default Carousel Card: Used if no custom renderer is provided
 const DefaultCarouselCard = ({ item }: { item: any }) => {
+  const imageUri =
+    typeof item === "object" && item?.image
+      ? item.image
+      : "https://www.sciencealert.com/images/2026/01/ai_psychosis_header-3.jpg";
+
   return (
     <View style={styles.defaultCard}>
-      <View style={styles.imageBackground} />
+      <ImageBackground
+        source={{ uri: imageUri }}
+        style={styles.imageBackground}
+        resizeMode="cover"
+      />
     </View>
   );
 };
@@ -138,7 +152,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     height: "100%",
-    backgroundColor: "red",
   },
 });
 
