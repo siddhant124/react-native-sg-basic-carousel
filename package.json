@@ -1,23 +1,10 @@
 {
   "name": "react-native-sg-basic-carousel",
-  "version": "1.0.5",
-  "description": "An npm package to display a basic carousel in React Native applications",
-  "main": "index.tsx",
-  "license": "Apache-2.0",
-  "author": "Siddhant Goyal",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/siddhant124/react-native-sg-basic-carousel.git"
-  },
-  "bugs": {
-    "url": "https://github.com/siddhant124/react-native-sg-basic-carousel/issues"
-  },
-  "homepage": "https://github.com/siddhant124/react-native-sg-basic-carousel#readme",
-  "keywords": [
-    "react-native",
-    "carousel",
-    "flatlist",
-    "mobile"
+  "version": "1.0.6",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
   ],
   "peerDependencies": {
     "react": ">=17.0.0",
