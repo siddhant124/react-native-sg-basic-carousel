@@ -12,12 +12,9 @@ import type {PartialViewConfig} from '../../Renderer/shims/ReactNativeTypes';
 
 import {ConditionallyIgnoredEventHandlers} from '../../NativeComponent/ViewConfigIgnore';
 
-type PartialViewConfigWithoutName = $Rest<
-  PartialViewConfig,
-  {uiViewClassName: string},
->;
+type PartialViewConfigWithoutName = Omit<PartialViewConfig, 'uiViewClassName'>;
 
-const RCTTextInputViewConfig = {
+const RCTTextInputViewConfig: PartialViewConfigWithoutName = {
   bubblingEventTypes: {
     topBlur: {
       phasedRegistrationNames: {
@@ -85,13 +82,23 @@ const RCTTextInputViewConfig = {
     topContentSizeChange: {
       registrationName: 'onContentSizeChange',
     },
+    topChangeSync: {
+      registrationName: 'onChangeSync',
+    },
+    topKeyPressSync: {
+      registrationName: 'onKeyPressSync',
+    },
   },
   validAttributes: {
+    acceptDragAndDropTypes: true,
+    dynamicTypeRamp: true,
     fontSize: true,
     fontWeight: true,
     fontVariant: true,
     // flowlint-next-line untyped-import:off
-    textShadowOffset: {diff: require('../../Utilities/differ/sizesDiffer')},
+    textShadowOffset: {
+      diff: require('../../Utilities/differ/sizesDiffer').default,
+    },
     allowFontScaling: true,
     fontStyle: true,
     textTransform: true,
@@ -114,6 +121,7 @@ const RCTTextInputViewConfig = {
     },
     editable: true,
     inputAccessoryViewID: true,
+    inputAccessoryViewButtonLabel: true,
     caretHidden: true,
     enablesReturnKeyAutomatically: true,
     placeholderTextColor: {
@@ -132,6 +140,7 @@ const RCTTextInputViewConfig = {
     placeholder: true,
     autoCorrect: true,
     multiline: true,
+    numberOfLines: true,
     textContentType: true,
     maxLength: true,
     autoCapitalize: true,
@@ -144,14 +153,18 @@ const RCTTextInputViewConfig = {
     showSoftInputOnFocus: true,
     autoFocus: true,
     lineBreakStrategyIOS: true,
+    lineBreakModeIOS: true,
     smartInsertDelete: true,
     ...ConditionallyIgnoredEventHandlers({
       onChange: true,
       onSelectionChange: true,
       onContentSizeChange: true,
       onScroll: true,
+      onChangeSync: true,
+      onKeyPressSync: true,
     }),
+    disableKeyboardShortcuts: true,
   },
 };
 
-module.exports = (RCTTextInputViewConfig: PartialViewConfigWithoutName);
+export default RCTTextInputViewConfig as PartialViewConfigWithoutName;

@@ -7,7 +7,7 @@
  * @noformat
  * @nolint
  * @flow strict-local
- * @generated SignedSource<<69d0cc554d77cddb1c779dfbdf569505>>
+ * @generated SignedSource<<1f7876c0dc0b05685a730513dc410236>>
  */
 
 'use strict';
@@ -82,6 +82,8 @@ export function register(name: string, callback: () => ViewConfig): string {
     typeof callback === 'function',
     'View config getter callback for component `%s` must be a function (received `%s`)',
     name,
+    /* $FlowFixMe[invalid-compare] Error discovered during Constant Condition
+     * roll out. See https://fburl.com/workplace/5whu3i34. */
     callback === null ? 'null' : typeof callback,
   );
   viewConfigCallbacks.set(name, callback);
@@ -94,8 +96,8 @@ export function register(name: string, callback: () => ViewConfig): string {
  * This configuration will be lazy-loaded from UIManager.
  */
 export function get(name: string): ViewConfig {
-  let viewConfig;
-  if (!viewConfigs.has(name)) {
+  let viewConfig = viewConfigs.get(name);
+  if (viewConfig == null) {
     const callback = viewConfigCallbacks.get(name);
     if (typeof callback !== 'function') {
       invariant(
@@ -110,15 +112,14 @@ export function get(name: string): ViewConfig {
       );
     }
     viewConfig = callback();
+    invariant(viewConfig, 'View config not found for component `%s`', name);
+
     processEventTypes(viewConfig);
     viewConfigs.set(name, viewConfig);
 
     // Clear the callback after the config is set so that
     // we don't mask any errors during registration.
     viewConfigCallbacks.set(name, null);
-  } else {
-    viewConfig = viewConfigs.get(name);
   }
-  invariant(viewConfig, 'View config not found for name %s', name);
   return viewConfig;
 }

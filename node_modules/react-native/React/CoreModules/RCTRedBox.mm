@@ -219,7 +219,11 @@
 
 - (NSInteger)bottomSafeViewHeight
 {
-  return RCTSharedApplication().delegate.window.safeAreaInsets.bottom;
+#if TARGET_OS_MACCATALYST
+  return 0;
+#else
+  return RCTKeyWindow().safeAreaInsets.bottom;
+#endif
 }
 
 RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)

@@ -7,6 +7,10 @@
 
 #pragma once
 
+#include <react/renderer/core/EventTarget.h>
+#include <react/timing/primitives.h>
+
+#include <optional>
 #include <string_view>
 
 namespace facebook::react {
@@ -27,7 +31,10 @@ class EventLogger {
    * Called when an event is first created, returns and unique tag for this
    * event, which can be used to log further event processing stages.
    */
-  virtual EventTag onEventStart(std::string_view name) = 0;
+  virtual EventTag onEventStart(
+      std::string_view name,
+      SharedEventTarget target,
+      std::optional<HighResTimeStamp> eventStartTimeStamp = std::nullopt) = 0;
 
   /*
    * Called when event starts getting dispatched (processed by the handlers, if

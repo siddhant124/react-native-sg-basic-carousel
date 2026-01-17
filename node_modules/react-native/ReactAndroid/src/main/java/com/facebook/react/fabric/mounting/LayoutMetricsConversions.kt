@@ -8,21 +8,21 @@
 package com.facebook.react.fabric.mounting
 
 import android.view.View.MeasureSpec
-import com.facebook.react.uimanager.PixelUtil
+import com.facebook.react.uimanager.PixelUtil.dpToPx
 import com.facebook.yoga.YogaMeasureMode
 
-public interface LayoutMetricsConversions {
+internal interface LayoutMetricsConversions {
 
-  public companion object {
+  companion object {
     @JvmStatic
-    public fun getMinSize(viewMeasureSpec: Int): Float {
+    fun getMinSize(viewMeasureSpec: Int): Float {
       val mode = MeasureSpec.getMode(viewMeasureSpec)
       val size = MeasureSpec.getSize(viewMeasureSpec)
       return if (mode == MeasureSpec.EXACTLY) size.toFloat() else 0f
     }
 
     @JvmStatic
-    public fun getMaxSize(viewMeasureSpec: Int): Float {
+    fun getMaxSize(viewMeasureSpec: Int): Float {
       val mode = MeasureSpec.getMode(viewMeasureSpec)
       val size = MeasureSpec.getSize(viewMeasureSpec)
 
@@ -31,17 +31,17 @@ public interface LayoutMetricsConversions {
     }
 
     @JvmStatic
-    public fun getYogaSize(minSize: Float, maxSize: Float): Float =
+    fun getYogaSize(minSize: Float, maxSize: Float): Float =
         if (minSize == maxSize) {
-          PixelUtil.toPixelFromDIP(maxSize)
+          maxSize.dpToPx()
         } else if (maxSize.isInfinite()) {
           Float.POSITIVE_INFINITY
         } else {
-          PixelUtil.toPixelFromDIP(maxSize)
+          maxSize.dpToPx()
         }
 
     @JvmStatic
-    public fun getYogaMeasureMode(minSize: Float, maxSize: Float): YogaMeasureMode =
+    fun getYogaMeasureMode(minSize: Float, maxSize: Float): YogaMeasureMode =
         if (minSize == maxSize) {
           YogaMeasureMode.EXACTLY
         } else if (maxSize.isInfinite()) {

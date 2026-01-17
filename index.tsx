@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, JSX } from "react";
 import {
   View,
   FlatList,
@@ -7,7 +7,6 @@ import {
   StyleSheet,
   ViewStyle,
   StyleProp,
-  ImageBackground,
 } from "react-native";
 
 interface CarouselProps {
@@ -60,7 +59,7 @@ const BasicCarousel = ({
       if (viewableItems.length > 0) {
         setActiveIndex(viewableItems[0].index);
       }
-    }
+    },
   ).current;
 
   return (
